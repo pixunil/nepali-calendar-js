@@ -2,11 +2,11 @@
   Expose functions.
 */
 module.exports =
-  { toJalaali: toJalaali
+  { toNepali: toNepali
   , toGregorian: toGregorian
-  , isValidJalaaliDate: isValidJalaaliDate
-  , isLeapJalaaliYear: isLeapJalaaliYear
-  , jalaaliMonthLength: jalaaliMonthLength
+  , isValidNepaliDate: isValidNepaliDate
+  , isLeapNepaliYear: isLeapNepaliYear
+  , nepaliMonthLength: nepaliMonthLength
   , jalCal: jalCal
   , j2d: j2d
   , d2j: d2j
@@ -15,9 +15,9 @@ module.exports =
   }
 
 /*
-  Converts a Gregorian date to Jalaali.
+  Converts a Gregorian date to Nepali.
 */
-function toJalaali(gy, gm, gd) {
+function toNepali(gy, gm, gd) {
   if (Object.prototype.toString.call(gy) === '[object Date]') {
     gd = gy.getDate()
     gm = gy.getMonth() + 1
@@ -27,54 +27,54 @@ function toJalaali(gy, gm, gd) {
 }
 
 /*
-  Converts a Jalaali date to Gregorian.
+  Converts a Nepali date to Gregorian.
 */
 function toGregorian(jy, jm, jd) {
   return d2g(j2d(jy, jm, jd))
 }
 
 /*
-  Checks whether a Jalaali date is valid or not.
+  Checks whether a Nepali date is valid or not.
 */
-function isValidJalaaliDate(jy, jm, jd) {
+function isValidNepaliDate(jy, jm, jd) {
   return  jy >= -61 && jy <= 3177 &&
           jm >= 1 && jm <= 12 &&
-          jd >= 1 && jd <= jalaaliMonthLength(jy, jm)
+          jd >= 1 && jd <= nepaliMonthLength(jy, jm)
 }
 
 /*
   Is this a leap year or not?
 */
-function isLeapJalaaliYear(jy) {
+function isLeapNepaliYear(jy) {
   return jalCal(jy).leap === 0
 }
 
 /*
-  Number of days in a given month in a Jalaali year.
+  Number of days in a given month in a Nepali year.
 */
-function jalaaliMonthLength(jy, jm) {
+function nepaliMonthLength(jy, jm) {
   if (jm <= 6) return 31
   if (jm <= 11) return 30
-  if (isLeapJalaaliYear(jy)) return 30
+  if (isLeapNepaliYear(jy)) return 30
   return 29
 }
 
 /*
-  This function determines if the Jalaali (Persian) year is
+  This function determines if the Nepali (Persian) year is
   leap (366-day long) or is the common year (365 days), and
   finds the day in March (Gregorian calendar) of the first
-  day of the Jalaali year (jy).
+  day of the Nepali year (jy).
 
-  @param jy Jalaali calendar year (-61 to 3177)
+  @param jy Nepali calendar year (-61 to 3177)
   @return
     leap: number of years since the last leap year (0 to 4)
-    gy: Gregorian year of the beginning of Jalaali year
+    gy: Gregorian year of the beginning of Nepali year
     march: the March day of Farvardin the 1st (1st day of jy)
   @see: http://www.astro.uni.torun.pl/~kb/Papers/EMP/PersianC-EMP.htm
   @see: http://www.fourmilab.ch/documents/calendar/
 */
 function jalCal(jy) {
-  // Jalaali years starting the 33-year rule.
+  // Nepali years starting the 33-year rule.
   var breaks =  [ -61, 9, 38, 199, 426, 686, 756, 818, 1111, 1181, 1210
                 , 1635, 2060, 2097, 2192, 2262, 2324, 2394, 2456, 3178
                 ]
@@ -91,9 +91,9 @@ function jalCal(jy) {
     , i
 
   if (jy < jp || jy >= breaks[bl - 1])
-    throw new Error('Invalid Jalaali year ' + jy)
+    throw new Error('Invalid Nepali year ' + jy)
 
-  // Find the limiting years for the Jalaali year jy.
+  // Find the limiting years for the Nepali year jy.
   for (i = 1; i < bl; i += 1) {
     jm = breaks[i]
     jump = jm - jp
@@ -105,7 +105,7 @@ function jalCal(jy) {
   n = jy - jp
 
   // Find the number of leap years from AD 621 to the beginning
-  // of the current Jalaali year in the Persian calendar.
+  // of the current Nepali year in the Persian calendar.
   leapJ = leapJ + div(n, 33) * 8 + div(mod(n, 33) + 3, 4)
   if (mod(jump, 33) === 4 && jump - n === 4)
     leapJ += 1
@@ -131,11 +131,11 @@ function jalCal(jy) {
 }
 
 /*
-  Converts a date of the Jalaali calendar to the Julian Day number.
+  Converts a date of the Nepali calendar to the Julian Day number.
 
-  @param jy Jalaali year (1 to 3100)
-  @param jm Jalaali month (1 to 12)
-  @param jd Jalaali day (1 to 29/31)
+  @param jy Nepali year (1 to 3100)
+  @param jm Nepali month (1 to 12)
+  @param jd Nepali day (1 to 29/31)
   @return Julian Day number
 */
 function j2d(jy, jm, jd) {
@@ -144,13 +144,13 @@ function j2d(jy, jm, jd) {
 }
 
 /*
-  Converts the Julian Day number to a date in the Jalaali calendar.
+  Converts the Julian Day number to a date in the Nepali calendar.
 
   @param jdn Julian Day number
   @return
-    jy: Jalaali year (1 to 3100)
-    jm: Jalaali month (1 to 12)
-    jd: Jalaali day (1 to 29/31)
+    jy: Nepali year (1 to 3100)
+    jm: Nepali month (1 to 12)
+    jd: Nepali day (1 to 29/31)
 */
 function d2j(jdn) {
   var gy = d2g(jdn).gy // Calculate Gregorian year (gy).
@@ -177,7 +177,7 @@ function d2j(jdn) {
       k -= 186
     }
   } else {
-    // Previous Jalaali year.
+    // Previous Nepali year.
     jy -= 1
     k += 179
     if (r.leap === 1)
