@@ -7,8 +7,8 @@ module.exports =
   , isValidNepaliDate: isValidNepaliDate
   , isLeapNepaliYear: isLeapNepaliYear
   , nepaliMonthLength: nepaliMonthLength
-  , j2d: j2d
-  , d2j: d2j
+  , n2d: n2d
+  , d2n: d2n
   , g2d: g2d
   , d2g: d2g
   }
@@ -23,63 +23,63 @@ function toNepali(gy, gm, gd) {
     gm = gy.getMonth() + 1
     gy = gy.getFullYear()
   }
-  return d2j(g2d(gy, gm, gd))
+  return d2n(g2d(gy, gm, gd))
 }
 
 /*
   Converts a Nepali date to Gregorian.
 */
-function toGregorian(jy, jm, jd) {
-  return d2g(j2d(jy, jm, jd))
+function toGregorian(ny, nm, nd) {
+  return d2g(n2d(ny, nm, nd))
 }
 
 /*
   Checks whether a Nepali date is valid or not.
 */
-function isValidNepaliDate(jy, jm, jd) {
-  return  jy >= 2000 && jy <= 2099 &&
-          jm >= 1 && jm <= 12 &&
-          jd >= 1 && jd <= nepaliMonthLength(jy, jm)
+function isValidNepaliDate(ny, nm, nd) {
+  return  ny >= 2000 && ny <= 2099 &&
+          nm >= 1 && nm <= 12 &&
+          nd >= 1 && nd <= nepaliMonthLength(ny, nm)
 }
 
 /*
   Is this a leap year or not?
 */
-function isLeapNepaliYear(jy) {
-  return (nepCal.indexOf(jy)!=-1);
+function isLeapNepaliYear(ny) {
+  return (nepCal.leapYears.indexOf(ny)!=-1);
 }
 
 /*
   Number of days in a given month in a Nepali year.
 */
-function nepaliMonthLength(jy, jm) {
-  return nepCal[jy][jm];
+function nepaliMonthLength(ny, nm) {
+  return nepCal[ny][nm-1];
 }
 
 /*
   Converts a date of the Nepali calendar to the Julian Day number.
 
-  @param jy Nepali year (1 to 3100)
-  @param jm Nepali month (1 to 12)
-  @param jd Nepali day (1 to 29/31)
+  @param ny Nepali year (1 to 3100)
+  @param nm Nepali month (1 to 12)
+  @param nd Nepali day (1 to 29/31)
   @return Julian Day number
 */
-function j2d(jy, jm, jd) {
+function n2d(ny, nm, nd) {
   i=ly=nepCal.startYear;
   d=nepCal.startJulianDay-1;
   ly=nepCal.leapYears[0];
   for(j=1;j<nepCal.leapYears.length;j++){
-    if(ly>jy) break;
+    if(ly>ny) break;
     d+=(ly-i)*365;
     d+=366;
     i=ly+1;
     ly=nepCal.leapYears[j]
   }
-  if(jy-i > 1) d+=(jy-i)*365;
-  for(i=1;i<jm;i++){
-    d+=nepCal[jy][i-1];
+  if(ny-i > 1) d+=(ny-i)*365;
+  for(i=1;i<nm;i++){
+    d+=nepCal[ny][i-1];
   }
-  d+=jd;
+  d+=nd;
   return d;
 }
 /*
@@ -87,36 +87,36 @@ function j2d(jy, jm, jd) {
 
   @param jdn Julian Day number
   @return
-    jy: Nepali year (1 to 3100)
-    jm: Nepali month (1 to 12)
-    jd: Nepali day (1 to 29/31)
+    ny: Nepali year (1 to 3100)
+    nm: Nepali month (1 to 12)
+    nd: Nepali day (1 to 29/31)
 */
-function d2j(jdn) {
+function d2n(jdn) {
   jdn=jdn-nepCal.startJulianDay-1+2;
-  jy=ly=nepCal.startYear;
+  ny=ly=nepCal.startYear;
   d=td=jdn;
   for(i=0;i<nepCal.leapYears.length;i++){
-    td-= (nepCal.leapYears[i]-jy)*365;
+    td-= (nepCal.leapYears[i]-ny)*365;
     td-= 366;
     if(td<0) break;
     d=td;
-    jy = nepCal.leapYears[i]+1;
+    ny = nepCal.leapYears[i]+1;
   }
   while(d > 365){
     d-=365;
-    jy++;
+    ny++;
   }
-  for(jm=1;jm<12;jm++){
-    if(d>nepCal[jy][jm])
-      d-=nepCal[jy][jm-1];
+  for(nm=1;nm<12;nm++){
+    if(d>nepCal[ny][nm])
+      d-=nepCal[ny][nm-1];
     else
       break;
   }
-  jd=d;
+  nd=d;
 
-  return  { jy: jy
-          , jm: jm
-          , jd: jd
+  return  { ny: ny
+          , nm: nm
+          , nd: nd
           }
 }
 /*
@@ -136,7 +136,7 @@ function g2d(gy, gm, gd) {
       + div(153 * mod(gm + 9, 12) + 2, 5)
       + gd - 34840408
   d = d - div(div(gy + 100100 + div(gm - 8, 6), 100) * 3, 4) + 752
-  return d
+  return d;
 }
 
 /*
