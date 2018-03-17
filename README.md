@@ -8,6 +8,19 @@ Vikram Samvat (Hindi: विक्रम सम्वत्, Nepali: विक�
 
 Calendar conversion is based on the data in nepali-calendar.json file
 
+## Limitations
+Calendar range from 2000 BS to 2090 BS
+
+## Future Enhancement
+ 
+1. Add more tests
+2. Adding support for more years
+3. Removing the json file and automating calendar conversions using some algorithm. Currently exploring : www.cc.kyoto-su.ac.jp/~yanom/sanskrit/pancanga/ for this purpose.
+
+## Request to other developers
+
+Please send your pull requests in so that this library can become better and more useful.
+
 ## Install
 
 ### Node.js
@@ -15,13 +28,13 @@ Calendar conversion is based on the data in nepali-calendar.json file
 Use [`npm`](https://npmjs.org) to install:
 
 ```sh
-$ npm install --save nepali-js
+$ npm install --save nepali-calendar-js
 ```
 
 Then import it:
 
 ```js
-var nepali = require('nepali-js')
+var nepali = require('nepali-calendar-js')
 ```
 
 
@@ -30,13 +43,13 @@ var nepali = require('nepali-js')
 Use [`component`](https://github.com/component/component) to install:
 
 ```sh
-$ component install nepali/nepali-js
+$ component install nepali/nepali-calendar-js
 ```
 
 Then import it:
 
 ```js
-var nepali = require('nepali-js')
+var nepali = require('nepali-calendar-js')
 ```
 
 ## API
@@ -46,7 +59,7 @@ var nepali = require('nepali-js')
 Converts a Gregorian date to Nepali.
 
 ```js
-nepali.toNepali(2016, 4, 11) // { jy: 1395, jm: 1, jd: 23 }
+nepali.toNepali(1943,4, 14) // { jy: 2000, jm: 1, jd: 1 }
 ```
 
 ### toNepali(date)
@@ -54,7 +67,7 @@ nepali.toNepali(2016, 4, 11) // { jy: 1395, jm: 1, jd: 23 }
 Converts a JavaScript Date object to Nepali.
 
 ```js
-nepali.toNepali(new Date(2016, 3, 11)) // { jy: 1395, jm: 1, jd: 23 }
+nepali.toNepali(new Date(1995, 3, 11)) // { jy: 2051, jm: 11, jd: 27 }
 ```
 
 ### toGregorian(jy, jm, jd)
@@ -62,7 +75,7 @@ nepali.toNepali(new Date(2016, 3, 11)) // { jy: 1395, jm: 1, jd: 23 }
 Converts a Nepali date to Gregorian.
 
 ```js
-nepali.toGregorian(1395, 1, 23) // { gy: 2016, gm: 4, gd: 11 }
+nepali.toGregorian(2010, 1, 19) // { gy: 1953, gm: 5, gd: 1 }
 ```
 
 ### isValidNepaliDate(jy, jm, jd)
@@ -70,8 +83,8 @@ nepali.toGregorian(1395, 1, 23) // { gy: 2016, gm: 4, gd: 11 }
 Checks whether a Nepali date is valid or not.
 
 ```js
-nepali.isValidNepaliDate(1394, 12, 30) // false
-nepali.isValidNepaliDate(1395, 12, 30) // true
+nepali.isValidNepaliDate(2000, 1, 32) // false
+nepali.isValidNepaliDate(2050, 12, 19) // true
 ```
 
 ### isLeapNepaliYear(jy)
@@ -79,8 +92,8 @@ nepali.isValidNepaliDate(1395, 12, 30) // true
 Is this a leap year or not?
 
 ```js
-nepali.isLeapNepaliYear(1394) // false
-nepali.isLeapNepaliYear(1395) // true
+nepali.isLeapNepaliYear(2008) // false
+nepali.isLeapNepaliYear(2019) // true
 ```
 
 ### nepaliMonthLength(jy, jm)
@@ -88,8 +101,8 @@ nepali.isLeapNepaliYear(1395) // true
 Number of days in a given month in a Nepali year.
 
 ```js
-nepali.nepaliMonthLength(1394, 12) // 29
-nepali.nepaliMonthLength(1395, 12) // 30
+nepali.nepaliMonthLength(2000, 12) // 31
+nepali.nepaliMonthLength(2090, 12) // 30
 ```
 
 
@@ -98,7 +111,7 @@ nepali.nepaliMonthLength(1395, 12) // 30
 Converts a date of the Nepali calendar to the Julian Day number.
 
 ```js
-nepali.j2d(1395, 1, 23) // 2457490
+nepali.j2d(2010, 1, 19) // 2434499
 ```
 
 ### d2j(jdn)
@@ -106,7 +119,7 @@ nepali.j2d(1395, 1, 23) // 2457490
 Converts the Julian Day number to a date in the Nepali calendar.
 
 ```js
-nepali.d2j(2457490) // { jy: 1395, jm: 1, jd: 23 }
+nepali.d2j(2434499) // { jy: 2010, jm: 1, jd: 19 }
 ```
 
 ### g2d(gy, gm, gd)
@@ -124,6 +137,9 @@ Calculates Gregorian and Julian calendar dates from the Julian Day number (jdn) 
 ```js
 nepali.d2g(2457490) // { gy: 2016, gm: 4, gd: 11 }
 ```
+
+## Acknowledgement
+This project was built from the great work done by @behrang whose behind jalaali-js project.
 
 ## License
 
