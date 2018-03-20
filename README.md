@@ -37,21 +37,6 @@ Then import it:
 var nepali = require('nepali-calendar-js')
 ```
 
-
-### Browser
-
-Use [`component`](https://github.com/component/component) to install:
-
-```sh
-$ component install nepali/nepali-calendar-js
-```
-
-Then import it:
-
-```js
-var nepali = require('nepali-calendar-js')
-```
-
 ## API
 
 ### toNepali(gy, gm, gd)
