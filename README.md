@@ -6,7 +6,7 @@ A few javascript functions for converting Vikram Samvat / Nepali and Gregorian c
 
 Vikram Samvat (Hindi: विक्रम सम्वत्, Nepali: विक्रम सम्वत्) (abbreviated as V.S. (or VS) or B.S. (or BS)) is the historical Hindu calendar of India and Nepal. It uses lunar months and solar sidereal year (see: Vedic time keeping). It is used as the official calendar in Nepal. [Read more on Wikipedia](https://en.wikipedia.org/wiki/Vikram_Samvat).
 
-Calendar conversion is based on the data in nepali-calendar.json file
+Calendar conversion is based on the JSON Data exposed as "NepaliCalendarData" 
 
 ## Limitations
 Calendar range from 2000 BS to 2090 BS
