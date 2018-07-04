@@ -47,3 +47,5 @@ describe('nepaliMonthLength', function () {
     n.nepaliMonthLength(2010, 4).should.be.exactly(32)
   })
 })
+
+console.log(n.toGregorian(new Date(2200, 3 - 1, 11)))

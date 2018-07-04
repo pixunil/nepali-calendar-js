@@ -79,29 +79,34 @@ function d2n(jdn) {
   jdn=jdn-nepaliCalendarData.startJulianDay-1+2;
   ny=ly=nepaliCalendarData.startYear;
   d=td=jdn;
-  for(i=0;i<nepaliCalendarData.leapYears.length;i++){
-    td-= (nepaliCalendarData.leapYears[i]-ny)*365;
-    td-= 366;
-    if(td<0) break;
-    d=td;
-    ny = nepaliCalendarData.leapYears[i]+1;
+  try{
+    for(i=0;i<nepaliCalendarData.leapYears.length;i++){
+      td-= (nepaliCalendarData.leapYears[i]-ny)*365;
+      td-= 366;
+      if(td<0) break;
+      d=td;
+      ny = nepaliCalendarData.leapYears[i]+1;
+    }
+    while(d > 365){
+      d-=365;
+      ny++;
+    }
+    for(nm=1;nm<12;nm++){
+      if(d>nepaliCalendarData[ny][nm])
+        d-=nepaliCalendarData[ny][nm-1];
+      else
+        break;
+    }
+    nd=d;
+  
+    return  { ny: ny
+            , nm: nm
+            , nd: nd
+            }
   }
-  while(d > 365){
-    d-=365;
-    ny++;
+  catch(exception){
+    return null;
   }
-  for(nm=1;nm<12;nm++){
-    if(d>nepaliCalendarData[ny][nm])
-      d-=nepaliCalendarData[ny][nm-1];
-    else
-      break;
-  }
-  nd=d;
-
-  return  { ny: ny
-          , nm: nm
-          , nd: nd
-          }
 }
 /*
   Calculates the Julian Day number from Gregorian or Julian
