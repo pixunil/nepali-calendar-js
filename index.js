@@ -73,7 +73,7 @@ function n2d(ny, nm, nd) {
   @return
     ny: Nepali year (1 to 3100)
     nm: Nepali month (1 to 12)
-    nd: Nepali day (1 to 29/31)
+    nd: Nepali day (1 to 29/32)
 */
 function d2n(jdn) {
   jdn=jdn-nepaliCalendarData.startJulianDay-1+2;
@@ -92,13 +92,13 @@ function d2n(jdn) {
       ny++;
     }
     for(nm=1;nm<12;nm++){
-      if(d>nepaliCalendarData[ny][nm])
+      if(d>nepaliCalendarData[ny][nm-1])
         d-=nepaliCalendarData[ny][nm-1];
       else
         break;
     }
     nd=d;
-  
+
     return  { ny: ny
             , nm: nm
             , nd: nd
@@ -172,7 +172,7 @@ function mod(a, b) {
 /*
   Nepali Calendar Data
 */
-var nepaliCalendarData = {    
+var nepaliCalendarData = {
     "2000" :  [ 30, 32, 31, 32, 31, 30, 30, 30, 29, 30, 29, 31 ],
     "2001" :  [ 31, 31, 32, 31, 31, 31, 30, 29, 30, 29, 30, 30 ],
     "2002" :  [ 31, 31, 32, 32, 31, 30, 30, 29, 30, 29, 30, 30 ],
