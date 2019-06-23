@@ -6,6 +6,7 @@ describe('toNepali', function () {
     n.toNepali(1943, 4, 14).should.be.eql({ny: 2000, nm: 1, nd: 1})
     n.toNepali(1953, 5, 1).should.be.eql({ny: 2010, nm: 1, nd: 19})
     n.toNepali(1995, 3, 11).should.be.eql({ny: 2051, nm: 11, nd: 27})
+    n.toNepali(1943, 6, 14).should.be.eql({ny: 2000, nm: 2, nd: 32})
   })
 
   it('should convert Date object to Nepali', function () {
@@ -47,5 +48,3 @@ describe('nepaliMonthLength', function () {
     n.nepaliMonthLength(2010, 4).should.be.exactly(32)
   })
 })
-
-console.log(n.toGregorian(new Date(2200, 3 - 1, 11)))
